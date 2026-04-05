@@ -47,3 +47,7 @@ project-plan/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI agent files
+claude.md
+AGENTS.md

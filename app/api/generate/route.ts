@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateContent } from "@/lib/openrouter";
+import { generateContent } from "@/lib/groq";
 import { GenerateSchema, parseAndValidateJSON, validatePinterestVariation, validateTwitterVariation, validateThreadsVariation, validateLinkedInVariation, VariationValidated } from "@/lib/validators";
 
 export const runtime = "edge";

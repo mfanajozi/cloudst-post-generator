@@ -2,12 +2,8 @@ import OpenAI from "openai";
 import { Platform } from "./types";
 
 const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENROUTER_API_KEY,
-    defaultHeaders: {
-    "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-    "X-Title": "SineThamsanqa Business Solutions Content Generator",
-  },
+  baseURL: "https://api.groq.com/openai/v1",
+  apiKey: process.env.GROQ_API_KEY,
 });
 
 function getPlatformPrompt(platform: Platform): { system: string; user: (type: string, details: string, options?: { includeThread?: boolean; includeCTA?: boolean }) => string } {
@@ -115,20 +111,39 @@ export async function generateContent(
   options?: { includeThread?: boolean; includeCTA?: boolean }
 ): Promise<unknown[]> {
   const { system, user } = getPlatformPrompt(platform);
+  const primaryModel = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
+  const fallbackModel = process.env.GROQ_FALLBACK_MODEL || "llama-3.3-70b-versatile";
 
-  const response = await openai.chat.completions.create({
-    model: process.env.OPENROUTER_MODEL || "qwen/qwen3.6-plus:free",
-    messages: [
-      { role: "system", content: system },
-      { role: "user", content: user(type, details, options) },
-    ],
-    temperature: 0.9,
-    max_tokens: 3000,
-  });
+  let response;
+  try {
+    response = await openai.chat.completions.create({
+      model: primaryModel,
+      messages: [
+        { role: "system", content: system },
+        { role: "user", content: user(type, details, options) },
+      ],
+      temperature: 0.9,
+      max_tokens: 3000,
+    });
+  } catch {
+    try {
+      response = await openai.chat.completions.create({
+        model: fallbackModel,
+        messages: [
+          { role: "system", content: system },
+          { role: "user", content: user(type, details, options) },
+        ],
+        temperature: 0.9,
+        max_tokens: 3000,
+      });
+    } catch {
+      throw new Error("Both primary and fallback models failed");
+    }
+  }
 
   const content = response.choices[0]?.message?.content;
   if (!content) {
-    throw new Error("No response from OpenRouter");
+    throw new Error("No response from Groq API");
   }
 
   const cleanedContent = content

@@ -2,7 +2,7 @@
 
 ## Description
 
-**SineThamsanqa Business Solutions** is a Next.js web app (AI content generator) that uses [OpenRouter](https://openrouter.ai/) to turn product or service details into ready-to-post social content. You pick a platform, describe what you’re promoting, and get multiple copy variations with one-click copy for titles, hashtags, threads, and more.
+**SineThamsanqa Business Solutions** is a Next.js web app (AI content generator) that uses [Groq](https://groq.com/) to turn product or service details into ready-to-post social content. You pick a platform, describe what you're promoting, and get multiple copy variations with one-click copy for titles, hashtags, threads, and more.
 
 ## What it does
 
@@ -32,11 +32,12 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-Configure OpenRouter by setting environment variables (for example in `.env.local`):
+Configure Groq by setting environment variables (for example in `.env.local`):
 
-- `OPENROUTER_API_KEY` — required for generation.
-- `OPENROUTER_MODEL` — optional; defaults to a configured model in `lib/openrouter.ts`.
-- `NEXT_PUBLIC_SITE_URL` — optional; used as the HTTP referer for OpenRouter.
+- `GROQ_API_KEY` — required for generation.
+- `GROQ_MODEL` — optional; defaults to `openai/gpt-oss-120b`.
+- `GROQ_FALLBACK_MODEL` — optional; defaults to `llama-3.3-70b-versatile` (used if primary model fails).
+- `NEXT_PUBLIC_SITE_URL` — optional; used for site URL configuration.
 
 ## Build
 
@@ -47,4 +48,4 @@ npm start
 
 ## Tech stack
 
-Next.js (App Router), React, TypeScript, Tailwind CSS, OpenAI-compatible client via OpenRouter, Zod.
+Next.js (App Router), React, TypeScript, Tailwind CSS, OpenAI-compatible client via Groq, Zod.
