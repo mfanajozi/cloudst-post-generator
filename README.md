@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SineThamsanqa Business Solutions
 
-## Getting Started
+## Description
 
-First, run the development server:
+**SineThamsanqa Business Solutions** is a Next.js web app (AI content generator) that uses [OpenRouter](https://openrouter.ai/) to turn product or service details into ready-to-post social content. You pick a platform, describe what you’re promoting, and get multiple copy variations with one-click copy for titles, hashtags, threads, and more.
+
+## What it does
+
+The app sends your inputs to a language model and returns **three structured variations** tailored to the network you selected. Each variation is validated on the server so you get consistent fields (for example Pinterest titles and tags, or LinkedIn headlines and body text). The UI is optimized for quickly copying pieces into Pinterest, X, Threads, or LinkedIn without reformatting.
+
+## Features
+
+- **Multi-platform output** — Pinterest, X (Twitter), Threads, and LinkedIn in one flow.
+- **Content focus** — Choose **Affiliate Product** or **Service** so prompts match how you sell.
+- **Pinterest** — Pin titles, descriptions, hashtags, and optional **AI image prompts** for pin visuals.
+- **X (Twitter)** — Tweets and hashtags; optional **thread** generation.
+- **Threads** — Hook, body, and hashtags tuned for short-form posts.
+- **LinkedIn** — Headline, body, hashtags; optional **call-to-action** line.
+- **Three variations per run** — Compare angles side by side.
+- **Copy-friendly UI** — Copy individual fields, tags, or **everything** for a variation at once.
+- **Validated API responses** — Server-side parsing and checks (Zod) before results reach the client.
+- **Edge API route** — Generation runs on the Edge runtime for low latency.
+
+## Getting started
+
+Install dependencies and run the dev server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Configure OpenRouter by setting environment variables (for example in `.env.local`):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `OPENROUTER_API_KEY` — required for generation.
+- `OPENROUTER_MODEL` — optional; defaults to a configured model in `lib/openrouter.ts`.
+- `NEXT_PUBLIC_SITE_URL` — optional; used as the HTTP referer for OpenRouter.
 
-## Learn More
+## Build
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+npm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Next.js (App Router), React, TypeScript, Tailwind CSS, OpenAI-compatible client via OpenRouter, Zod.
